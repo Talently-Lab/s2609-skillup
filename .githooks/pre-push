@@ -1,0 +1,53 @@
+#!/bin/sh
+# pre-push — reglas del repo (ver AGENTS.md)
+# Bloquea: push directo a main, borrado de ramas, nombres de rama inválidos
+# y pushes cuando el remoto tiene commits que localmente no tenés.
+
+remote="${1:-origin}"
+
+while read -r local_ref local_sha remote_ref remote_sha; do
+  case "$remote_ref" in
+    refs/heads/*) ;;
+    *) continue ;;
+  esac
+  branch="${remote_ref#refs/heads/}"
+  zero="0000000000000000000000000000000000000000"
+
+  # 1) nada entra directo a main
+  if [ "$branch" = "main" ]; then
+    echo "✗ PROHIBIDO subir directo a main." >&2
+    echo "  Abrí una rama <rol>/feature/<nombre> y un PR:" >&2
+    echo "  .\\scripts\\feature.ps1 start -Rol frontend -Feature mi-cambio" >&2
+    exit 1
+  fi
+
+  # 2) no se borran ramas (local_sha cero = delete)
+  if [ "$local_sha" = "$zero" ]; then
+    echo "✗ PROHIBIDO borrar ramas sin autorización ($branch)." >&2
+    exit 1
+  fi
+
+  # 3) formato de rama obligatorio
+  case "$branch" in
+    frontend/feature/*|backend/feature/*|qa/feature/*|ux/feature/*) ;;
+    *)
+      echo "✗ Nombre de rama inválido: '$branch'" >&2
+      echo "  Formato: <rol>/feature/<nombre>  (roles: frontend, backend, qa, ux)" >&2
+      exit 1
+      ;;
+  esac
+
+  # 4) comprobación de actualizaciones en el remoto
+  git fetch "$remote" --quiet 2>/dev/null
+  tip=$(git rev-parse -q --verify "refs/remotes/$remote/$branch" 2>/dev/null)
+  if [ -n "$tip" ] && [ "$tip" != "$local_sha" ]; then
+    if ! git merge-base --is-ancestor "$tip" "$local_sha" 2>/dev/null; then
+      echo "✗ '$branch' en el remoto tiene cambios que no tenés localmente." >&2
+      echo "  Ejecutá: git pull --ff-only $remote $branch   (solo avanza, no pisa nada)" >&2
+      echo "  Si git aborta, hay que resolverlo a mano: pedí instrucciones antes de forzar." >&2
+      exit 1
+    fi
+  fi
+done
+
+exit 0

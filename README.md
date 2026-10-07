@@ -16,6 +16,17 @@ Repositorio de la plataforma educativa SkillUp Campus.
 3. Variables de entorno: `cp .env.example .env`
 4. Correr en modo desarrollo: `npm run dev`
 
+## Flujo de trabajo (Git)
+
+Nada se sube directo a `main`: siempre por rama `<rol>/feature/<nombre>` + PR.
+Reglas completas en [AGENTS.md](AGENTS.md). Setup por colaborador (una vez): `.\scripts\setup.ps1`.
+
+1. `.\scripts\feature.ps1 start -Rol frontend -Feature mi-cambio`
+2. Trabajar y commitear
+3. `.\scripts\feature.ps1 finish` → push + `REGISTRO.md` + PR
+
+El historial de lo que se hizo queda en [REGISTRO.md](REGISTRO.md).
+
 ## Arquitectura (frontend)
 
 - `frontend/src/components`: Componentes reutilizables (Navbar, Cards, Modales).
