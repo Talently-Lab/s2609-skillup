@@ -5,7 +5,7 @@ Repositorio de la plataforma educativa SkillUp Campus.
 ## Estructura
 
 - `frontend/` — SPA construida con React, Vite y Tailwind CSS.
-- `back/` — backend (por definir).
+- `backend/` — backend (por definir).
 - `qa/` — documentación y recursos de QA (por definir).
 - `ux/` — links de diseño: prototipo, journey map, brief y docs de UX.
 
