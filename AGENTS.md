@@ -26,6 +26,19 @@ Vinculante para agentes y colaboradores. El hook `.githooks/pre-push` las hace c
 `<rol>/feature/<nombre-del-feature>` con rol ∈ `frontend` | `backend` | `qa` | `ux`.
 Ejemplo: `frontend/feature/login-google`. El hook rechaza cualquier otro formato.
 
+## Commits
+
+- **Todo cambio termina en un commit** antes de subir o dar por terminada la tarea: el árbol
+  tiene que quedar limpio. `scripts/feature.ps1 finish` se niega a continuar si hay cambios
+  sin commitear (nada se sube "a medias" ni queda suelto).
+- Los commits se hacen **en la rama `<rol>/feature/<nombre>`**: `main` solo avanza con merges
+  de PRs.
+- Mensajes con formato `tipo(ámbito): descripción` en español, por ejemplo:
+  `feat(frontend): login con Google`, `fix(qa): corrección de test de registro`,
+  `docs: actualiza REGISTRO.md`. Tipos: `feat` | `fix` | `docs` | `chore` | `refactor` | `test`.
+- Commits chicos y con un solo propósito; no mezclar cambios sin relación.
+- La actualización de `REGISTRO.md` también se commitea (el `finish` lo hace automáticamente).
+
 ## Registro
 
 `REGISTRO.md` concentra el historial de PRs (qué se hizo, cuándo, quién, estado) para poder
