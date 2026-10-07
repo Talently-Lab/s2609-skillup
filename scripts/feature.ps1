@@ -22,7 +22,7 @@ function Warn([string]$msg) { Write-Host "! $msg" -ForegroundColor Yellow }
 
 function Invoke-Git {
     param([string[]]$GitArgs)
-    $out = & git @GitArgs 2>&1
+    $out = & git @GitArgs 2>&1 | ForEach-Object { "$_" }
     if ($LASTEXITCODE -ne 0) {
         Fail ("git " + ($GitArgs -join ' ') + "`n" + (($out | Out-String).Trim()))
     }
@@ -137,9 +137,10 @@ $($stat.Trim())
 ## Notas / riesgos para revisión
 -
 "@
-            $url = gh pr create --base main --head $branch --title $tit --body $body 2>&1
-            if ($LASTEXITCODE -ne 0) { Fail ("No se pudo abrir el PR:`n$url") }
-            Ok "PR abierto: $url"
+            $res = gh pr create --base main --head $branch --title $tit --body $body 2>&1 | ForEach-Object { "$_" }
+            if ($LASTEXITCODE -ne 0) { Fail ("No se pudo abrir el PR:`n" + ($res -join "`n")) }
+            $prUrl = ($res | Where-Object { $_ -match 'https://github\.com' } | Select-Object -Last 1)
+            Ok "PR abierto: $prUrl"
         }
 
         Update-Registro
