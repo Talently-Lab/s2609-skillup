@@ -9,5 +9,6 @@ Si hay un error técnico y necesitás saber qué cambió y por qué, buscá acá
 <!-- registro:inicio -->
 | # | PR | Rama | Autor | Fecha | Estado |
 |---|----|------|-------|-------|--------|
-| #1 | [Flujo Git seguro: hook pre-push que bloquea subir a main/borrar ramas/nombres inválidos/pisar trabajo ajeno, scripts de rama+PR+registro, reglas en AGENTS.md, plantilla de PR y REGISTRO.md](https://github.com/Talently-Lab/s2609-skillup/pull/1) | `qa/feature/reglas-git` | hevieri | — | 🔵 abierto |
+| #1 | [Flujo Git seguro: hook pre-push que bloquea subir a main/borrar ramas/nombres inválidos/pisar trabajo ajeno, scripts de rama+PR+registro, reglas en AGENTS.md, plantilla de PR y REGISTRO.md](https://github.com/Talently-Lab/s2609-skillup/pull/1) | `qa/feature/reglas-git` | hevieri | 2026-10-07 | ✅ merged |
+| #2 | [feat(frontend): maqueta de las 9 pantallas del campus SkillUp](https://github.com/Talently-Lab/s2609-skillup/pull/2) | `frontend/feature/maquetacion-9-pantallas` | hevieri | 2026-10-21 | ✅ merged |
 <!-- registro:fin -->
